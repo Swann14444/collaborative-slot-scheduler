@@ -406,15 +406,15 @@ def isAllowedToCancelSlot(user, class_id, ts_start, ts_end, timeslot_kind):
 
 @app.route('/planningD1gestion', methods=['GET', 'POST'])
 def planningD1gestion():
-    return whole_planning(withNames=True, school_year="D1_2025")
+    return whole_planning(withNames=True, school_year="D1_2026")
 
 @app.route('/planningP2', methods=['GET', 'POST'])
 def planningP2():
-    return whole_planning(withNames=False, school_year="P2_2026")
+    return whole_planning(withNames=False, school_year="P2_2027")
 
 @app.route('/planningP2gestion', methods=['GET', 'POST'])
 def planningP2gestion():
-    return whole_planning(withNames=True, school_year="P2_2026")
+    return whole_planning(withNames=True, school_year="P2_2027")
 
 @app.route('/rollingPlanningP2', methods=['GET'])
 def rollingPlanningP2():
@@ -469,7 +469,7 @@ def rollingPlanningD1():
                 (SELECT new_value FROM planning_updates WHERE new_value IS NOT NULL and value_kind = 'h_type'and class_id=s.class_id ORDER BY creation_date DESC LIMIT 1) h_type,
                 associated_timeslots_user_id(class_id) timeslots
             from planning_updates s
-            where class_id in (select id from classes_list where school_year='D1_2025')
+            where class_id in (select id from classes_list where school_year='D1_2026')
             group by class_id
             order by date_time asc) as t
             where t.h_date_nonchar > CURRENT_DATE -6 limit 20
@@ -484,7 +484,7 @@ def partition(list_to_partition, predicate):
     return reduce(lambda matches, remaining: matches[not predicate(remaining)].add(remaining) or matches, list_to_partition, (set(), set()))
 
 @app.route('/planningD1', methods=['GET', 'POST'])
-def whole_planning(withNames=False, school_year="D1_2025"):
+def whole_planning(withNames=False, school_year="D1_2026"):
     data = request.get_json()
     includers_htype = set()
     includers_categorie = set()
@@ -689,7 +689,7 @@ def membersD1(user):
                 settings, 
                 contrib_assigned_ts(id) cat
             from users 
-            where id>=5 and school_year='D1_2025' and settings not like '%erasmus%' and settings not like '%demission%' 
+            where id>=5 and school_year='D1_2026' and settings not like '%erasmus%' and settings not like '%demission%' 
             order by firstname asc
         ) as d;""")
     rows = cur.fetchall()[0][0]
